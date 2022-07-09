@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block app_content %}
+<div class="row">
+    <div class="col-md-12">
+      <h1 class="text-center">{{ title }}</h1>
+        <div id="table"></div>
+        <p>
+            Want to download a PDF of the users?
+            <a href=" {{ url_for('download_users') }} ">Click here</a>
+        </p>
+    </div>  
+</div>
+{% endblock %}
+
+{% block gridjs_scripts %}
+<script>
+    new gridjs.Grid({
+      columns: [
+        { id: 'name', name: 'Name' },
+        { id: 'age', name: 'Age' },
+        { id: 'address', name: 'Address', sort: false },
+        { id: 'phone', name: 'Phone Number', sort: false },
+        { id: 'email', name: 'Email' },
+      ],
+      data: [
+        {% for user in fake_users %}
+          {
+            name: '{{ user.name }}',
+            age: {{ user.age }},
+            address: '{{ user.address }}',
+            phone: '{{ user.phone }}',
+            email: '{{ user.email }}'
+          },
+        {% endfor %}
+      ],
+      search: true,
+      sort: true,
+      pagination: true,
+    }).render(document.getElementById('table'));
+  </script>
+{% endblock %}
